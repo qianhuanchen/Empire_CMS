@@ -52,3 +52,14 @@ while ($primaryMenu = $empire->fetch($sql)) :
     </li>
 <?php endwhile ?>
 ```
+### 搜索表单的调用
+```php
+<form action="[!--news.url--]e/search/index.php" method="post" name="searchform"> 
+<input type="hidden" name="show" value="title" />
+<input type="hidden" name="tempid" value="1" />
+<input type="hidden" name="tbname" value="news" />
+<input type="text" name="keyboard" placeholder="输入 “课程” 相关词..." class="text" /> 
+<button type="submit" class="btn" value=""></button> 
+</form>
+```
+
