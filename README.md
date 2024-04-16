@@ -62,4 +62,41 @@ while ($primaryMenu = $empire->fetch($sql)) :
 <button type="submit" class="btn" value=""></button> 
 </form>
 ```
+### 高效率随机调用tag的PHP代码
++ 高效率随机调用
+```php
+<?php
+$num=$empire->num("select tagid from {$dbtbpre}enewstags");
+$randnum=100; 
+$randids=''; 
+$randdh=''; 
+for($i=1;$i<=$randnum;$i++) 
+{ 
+$randids.=$randdh.rand(1,$num); 
+$randdh=',';
+} 
+?>
+[e:loop={"select tagname,tagid from phome_enewstags where tagid in ($randids)  limit $randnum",32,24,0}]
+<a target="_blank" href="/tag/<?=$bqr['tagid']?>/" title="<?=$bqr['tagname']?>"><?=$bqr['tagname']?></a> | 
+[/e:loop]
+```
++ 正常调用
+```php
+[e:loop={"select tagname,tagid from phome_enewstags  limit 12 ",32,24,0}]
+<a target="_blank" href="/e/tags/?tagname=<?=$bqr['tagname']?>" title="<?=$bqr['tagname']?>"><?=$bqr['tagname']?></a> | 
+[/e:loop]
+```
++ 随机调用
+```php
+[e:loop={"select tagname,tagid from phome_enewstags  order by rand() limit 12 ",32,24,0}]
+<a target="_blank" href="/e/tags/?tagname=<?=$bqr['tagname']?>" title="<?=$bqr['tagname']?>"><?=$bqr['tagname']?></a> | 
+[/e:loop]
+```
++ 内容调用
+```php
+[e:loop={"select a.*,b.* from [!db.pre!]enewstags a LEFT JOIN [!db.pre!]enewstagsdata b ON a.tagid=b.tagid where b.classid='$navinfor[classid]' and b.id='$navinfor[id]' group by b.tagid order by a.num desc limit 10",0,24,0}]
+<a href='<?=$public_r['newsurl']?>e/tags/?tagname=<?=$bqr['tagname']?>' title='<?=$bqr['num']?>个'><?=$bqr['tagname']?>(<?=$bqr['num']?>)</a>
+[/e:loop]
+```
+  
 
